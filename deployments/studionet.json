@@ -1,0 +1,67 @@
+{
+  "batch": "A",
+  "contract_address": "0x6c8d83FdB74e82E66B5bBf9E48931F906B062457",
+  "contract_source": {
+    "deployed_source_sha256": "4c11143db27e23a480c01b9c54e3c2930ac534c8f3acf3e71484d471e3f188aa",
+    "path": "contracts/sequence_compressor.py",
+    "runner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
+    "source_exact_for_deployment": true,
+    "source_sha256": "4c11143db27e23a480c01b9c54e3c2930ac534c8f3acf3e71484d471e3f188aa"
+  },
+  "deployment_transaction_hash": "0xa565579c2d76ca8250c7d806096ba15191468c1a8632a076551964fb174eb964",
+  "explorer": {
+    "contract": "https://explorer-studio.genlayer.com/address/0x6c8d83FdB74e82E66B5bBf9E48931F906B062457",
+    "deployment_transaction": "https://explorer-studio.genlayer.com/tx/0xa565579c2d76ca8250c7d806096ba15191468c1a8632a076551964fb174eb964",
+    "intelligent_transaction": "https://explorer-studio.genlayer.com/tx/0x263e959184964268aaad6ad3510240672ae9e761513e3d65cb31ada10cc2f02b"
+  },
+  "intelligent_transaction_hash": "0x263e959184964268aaad6ad3510240672ae9e761513e3d65cb31ada10cc2f02b",
+  "network": {
+    "chain_id": 61999,
+    "name": "studionet",
+    "rpc": "https://studio.genlayer.com/api"
+  },
+  "repository": "sequencecompressor",
+  "schema": "genlayer-intelligent-contract-deployment/v2",
+  "setup_transaction_hashes": [],
+  "source": {
+    "deployed_source_sha256": "4c11143db27e23a480c01b9c54e3c2930ac534c8f3acf3e71484d471e3f188aa",
+    "schema_methods_verified": [
+      "compile_sequence",
+      "get_segment",
+      "segment_total"
+    ],
+    "source_sha256": "4c11143db27e23a480c01b9c54e3c2930ac534c8f3acf3e71484d471e3f188aa"
+  },
+  "tooling": {
+    "genlayer_test": "0.29.2",
+    "genvm_linter": "0.11.0",
+    "pyright": "1.1.411",
+    "pytest": "9.1.1",
+    "studionet_poll_interval_ms": 6000
+  },
+  "verification": {
+    "deployed_source_exact": true,
+    "execution_success": true,
+    "latest_final_readback": true,
+    "observed": {
+      "labels": [
+        "Preparation",
+        "Execution",
+        "Verification"
+      ],
+      "segment_count": 3,
+      "state": "COMPILED"
+    },
+    "schema_read": true,
+    "status": "FINALIZED"
+  },
+  "verified_at": "2026-08-25T21:48:58.297331Z",
+  "wallet_addresses": [
+    "0xe8624aD9cD1da1485D4ab6b9e3961AA0957BdD3b",
+    "0xEb84ce02Dd986A9d2BE93b6DCa85532949721518",
+    "0xAF52CE3F77418eeFc15Ee3A2a42C992ef89BFA17",
+    "0xFf8AD202d1376fe877EC60bd8734575fa7a0fFe9",
+    "0x31515633f4b47F01D4C84c6746cFe8444c6b9426"
+  ],
+  "wallet_policy": "repository-specific disposable bundle outside workspace; no cross-repository reuse"
+}
