@@ -12,7 +12,7 @@ Why GenLayer: GenLayer consensus performs the bounded semantic step, then determ
 
 Reusable: Yes. One deployment supports many independently keyed records and callers; the live fixture is only an example.
 
-Repository: https://github.com/Leokings/sequencecompressor (private; reviewers require read access).
+Repository: https://github.com/Leokings/sequencecompressor (public; accessible without signing in).
 
 Contract source: contracts/sequence_compressor.py
 
