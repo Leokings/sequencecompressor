@@ -48,3 +48,7 @@ own policy judgment; this audit does not promise acceptance.
 Publication note: private GitHub evidence requires reviewer access. The original
 StudioNet source and wallets are unchanged. CI uses the server's GET /health route
 for readiness; /api is a POST-only JSON-RPC route. No live wallet keys are used by CI.
+
+## October 8, 2026 recheck
+
+GenVM lint and strict typecheck passed again. Seven direct tests (including duplicate keys, role gates, and boolean model output), the five-validator GLSim test, and a read-only StudioNet regression test passed. The latter independently reread both finalized, successfully executed transaction receipts, the latest-final compilation state, and deployed source bytes; the source SHA-256 still matches `4c11143db27e23a480c01b9c54e3c2930ac534c8f3acf3e71484d471e3f188aa`. No contract source changed. Assignment has no timeout or reassignment path; a nonresponsive operator can keep a compilation unsealed. This is a documented workflow limitation, not an asset-loss issue because the contract holds no funds.

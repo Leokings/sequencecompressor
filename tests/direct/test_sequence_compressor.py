@@ -51,3 +51,27 @@ def test_wrong_model_length_is_rejected(contract, direct_vm, direct_alice):
     direct_vm.mock_llm(r".*Assign exactly one indexed label.*", json.dumps({"labels": [0, 1]}))
     with direct_vm.expect_revert("[LLM_ERROR] wrong_label_count"):
         contract.compile_sequence("bad-run", LABELS, ENTRIES, POLICY)
+
+
+def test_duplicate_key_and_non_owner_assignment_are_rejected(contract, direct_vm, direct_alice, direct_bob, direct_charlie):
+    compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    with direct_vm.expect_revert("sequence_exists"):
+        contract.compile_sequence("ASSEMBLY-RUN", LABELS, ENTRIES, POLICY)
+    direct_vm.sender = direct_bob
+    with direct_vm.expect_revert("only_owner"):
+        contract.assign_segment(compilation_id, 0, direct_charlie)
+
+
+def test_only_assigned_operator_can_acknowledge(contract, direct_vm, direct_alice, direct_bob, direct_charlie):
+    compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    contract.assign_segment(compilation_id, 0, direct_bob)
+    direct_vm.sender = direct_charlie
+    with direct_vm.expect_revert("only_operator"):
+        contract.acknowledge_segment(compilation_id, 0, "I checked the assigned segment and accept responsibility.")
+
+
+def test_boolean_model_label_is_rejected(contract, direct_vm, direct_alice):
+    direct_vm.sender = direct_alice
+    direct_vm.mock_llm(r".*Assign exactly one indexed label.*", json.dumps({"labels": [0, True, 1, 1, 2]}))
+    with direct_vm.expect_revert("[LLM_ERROR] invalid_label_index"):
+        contract.compile_sequence("boolean-label", LABELS, ENTRIES, POLICY)

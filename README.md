@@ -19,6 +19,13 @@ Write methods: `compile_sequence`, `assign_segment`, `acknowledge_segment`, `sea
 
 View methods: `get_compilation`, `get_segment`, `segment_total`
 
+## First-time StudioNet walkthrough
+
+1. Open the [deployed contract](https://explorer-studio.genlayer.com/address/0x6c8d83FdB74e82E66B5bBf9E48931F906B062457) in GenLayer Studio and connect a StudioNet wallet. All inputs are public; use example text rather than private plans.
+2. Call `compile_sequence` with a key not previously used by that wallet, for example `assembly-run`; `labels_json` = `["Preparation","Execution","Verification"]`; `entries_json` = `["Confirm the public work boundary","Stage the marked equipment","Install the first component","Install the second component","Inspect the completed assembly"]`; and `classification_policy` = `Classify each ordered entry by its operational phase without changing or reordering any entry.` The two JSON values are strings containing valid JSON, not separate array arguments.
+3. After the AI transaction finalizes, use the returned `compilation_id` (or lowercase wallet address followed by `:ASSEMBLY-RUN`) with `get_compilation`. Its `entry_labels` list shows the consensus labels and `segment_count` shows the run-length-compressed segment total. Call `get_segment(compilation_id, 0)` to inspect the first segment.
+4. To test the optional assignment lifecycle, the owner calls `assign_segment` once per segment with a different operator wallet for each. Each operator uses its own wallet to call `acknowledge_segment`. The owner then calls `seal_sequence`. An acknowledgement is a wallet statement, not independent proof that physical work was completed. An unresponsive operator currently prevents sealing; choose operators you trust for this test.
+
 ## Verification
 
 ```text

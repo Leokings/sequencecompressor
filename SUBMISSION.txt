@@ -1,13 +1,13 @@
-10. SequenceCompressor
+SequenceCompressor
 
 Contribution Date
-08/25/2026
+10/08/2026
 
 Title
-SequenceCompressor - Semantic sequence run compiler
+SequenceCompressor — consensus-labeled work segments
 
 Notes / Description
-Built SequenceCompressor, a reusable GenLayer intelligent contract for semantic sequence run compiler. Consensus labels every ordered entry from a closed alphabet; deterministic run-length encoding creates assignable contiguous work segments. One deployment supports multiple independently keyed records and callers. Inputs are public, caller-supplied snapshots; the contract does not automatically fetch or authenticate sources and moves no funds. GenVM lint, strict type checking, 4 direct tests and one five-validator GLSim flow passed. StudioNet verified successful finalized intelligent execution, final-state readback and matching deployed source.
+SequenceCompressor turns a public ordered list into assignable contiguous work segments. First time: open the linked StudioNet contract in GenLayer Studio, connect a test wallet, and call compile_sequence with a unique key, labels_json (for example ["Preparation","Execution","Verification"]), entries_json (a JSON list of 2–30 short steps), and a policy explaining how to label each step. Validators independently assign one closed label index per entry; the contract checks agreement and deterministically merges adjacent equal labels. Read get_compilation and get_segment to inspect the result. The owner can assign each segment to a distinct wallet, each operator acknowledges, and the owner seals after all acknowledgments. This records a workflow, not proof that work happened; no funds or external evidence. Audit: GenVM lint/typecheck, 7 direct tests, 5-validator GLSim, and finalized StudioNet deployment/AI write with exact source rechecked on Oct 8.
 
 Evidence 1 Type
 GitHub Repository
@@ -19,7 +19,7 @@ Evidence 2 Type
 GitHub File
 
 Evidence 2 URL
-https://github.com/Leokings/sequencecompressor/blob/main/deployments/studionet.json
+https://github.com/Leokings/sequencecompressor/blob/main/contracts/sequence_compressor.py
 
 Evidence 3 Type
 GenLayer Studio Contract
@@ -38,3 +38,9 @@ Other
 
 Evidence 5 URL
 https://explorer-studio.genlayer.com/tx/0x263e959184964268aaad6ad3510240672ae9e761513e3d65cb31ada10cc2f02b
+
+Evidence 6 Type
+Other
+
+Evidence 6 URL
+https://explorer-studio.genlayer.com/tx/0xa565579c2d76ca8250c7d806096ba15191468c1a8632a076551964fb174eb964
