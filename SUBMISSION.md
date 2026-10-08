@@ -26,7 +26,7 @@ Intelligent transaction: https://explorer-studio.genlayer.com/tx/0x338721e4cbeba
 
 Final seal transaction: https://explorer-studio.genlayer.com/tx/0xcbe120da2e9ee5dda0961808d44da460d830d476db9157f9a6aa9c5faa2ca5dc
 
-Verification (rechecked October 8, 2026): GenVM lint PASS; strict typecheck PASS; 11 direct tests PASS; five-validator GLSim PASS; 10 finalized successful StudioNet receipts through `SEALED` PASS; independent latest-final readback, exact deployed-source, and schema verification PASS. The first-time walkthrough is in README.md.
+Verification (rechecked October 8, 2026): GenVM lint PASS; strict typecheck PASS; 13 direct tests PASS; five-validator GLSim PASS; 10 finalized successful StudioNet receipts through `SEALED` PASS; independent latest-final readback, exact deployed-source, and schema verification PASS. The first-time walkthrough is in README.md.
 
 Originality: Compared with 161 workspace contract sources. Nearest pre-existing structural score is 0.192053; mechanism and source hash are distinct.
 

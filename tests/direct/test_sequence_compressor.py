@@ -77,6 +77,21 @@ def test_boolean_model_label_is_rejected(contract, direct_vm, direct_alice):
         contract.compile_sequence("boolean-label", LABELS, ENTRIES, POLICY)
 
 
+def test_extra_model_field_is_rejected(contract, direct_vm, direct_alice):
+    direct_vm.sender = direct_alice
+    direct_vm.mock_llm(r".*Assign exactly one indexed label.*", json.dumps({"labels": [0, 0, 1, 1, 2], "override": "approve"}))
+    with direct_vm.expect_revert("[LLM_ERROR] wrong_label_shape"):
+        contract.compile_sequence("extra-field", LABELS, ENTRIES, POLICY)
+
+
+def test_validator_rejects_different_label_decision(contract, direct_vm, direct_alice):
+    _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    leader = direct_vm._captured_validators[-1][0]
+    direct_vm.clear_mocks()
+    direct_vm.mock_llm(r".*Assign exactly one indexed label.*", json.dumps({"labels": [0, 1, 1, 1, 2]}))
+    assert direct_vm.run_validator(leader_result=leader) is False
+
+
 def test_zero_address_is_not_a_valid_operator(contract, direct_vm, direct_alice):
     compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
     with direct_vm.expect_revert("invalid_operator"):

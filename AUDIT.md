@@ -22,7 +22,7 @@ Current source SHA-256: `f848cd8e95d98825f68f77a7a2fa3d56331b359de7436cea149b4b2
 | --- | --- |
 | GenVM lint and semantic validation | PASS |
 | Strict typecheck | PASS, zero diagnostics |
-| Direct tests | PASS, 11 tests, including role, malformed-model, zero-address, stale-operator, reassignment, and terminal-state cases |
+| Direct tests | PASS, 13 tests, including role, malformed-model, validator-disagreement, zero-address, stale-operator, reassignment, and terminal-state cases |
 | Five-validator GLSim classification | PASS |
 | StudioNet full lifecycle | PASS, 10 finalized execution-successful receipts: deploy, AI compile, 8 lifecycle writes |
 | Independent read-only StudioNet regression | PASS, all 10 receipts rechecked |
