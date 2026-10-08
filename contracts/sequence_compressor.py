@@ -9,6 +9,7 @@ from typing import Any, NoReturn, cast
 
 MAX_LABELS = 8
 MAX_ENTRIES = 30
+ZERO_ADDRESS = "0x" + "0" * 40
 
 
 def _error(code: str) -> NoReturn:
@@ -42,6 +43,13 @@ def _loads(raw: str, label: str) -> Any:
 
 def _pack(value: dict[str, Any]) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+def _operator_text(operator: Address) -> str:
+    value = str(operator)
+    if value.lower() == ZERO_ADDRESS:
+        _error("invalid_operator")
+    return value
 
 
 def _unpack(raw: str) -> dict[str, Any]:
@@ -187,7 +195,7 @@ ENTRIES={json.dumps(entries)}"""
         segment = _unpack(self.segments[segment_key])
         if segment["state"] != "UNASSIGNED":
             _error("segment_already_assigned")
-        operator_text = str(operator)
+        operator_text = _operator_text(operator)
         usage_key = f"{compilation_id}:{operator_text.lower()}"
         if self.operator_used.get(usage_key, False):
             _error("operator_already_used")
@@ -198,6 +206,32 @@ ENTRIES={json.dumps(entries)}"""
         compilation["assigned_count"] = int(compilation["assigned_count"]) + 1
         compilation["state"] = "ACTIVE"
         self.compilations[compilation_id] = _pack(compilation)
+
+    @gl.public.write
+    def reassign_segment(self, compilation_id: str, segment_index: u256, new_operator: Address) -> None:
+        if not self.compilation_exists.get(compilation_id, False):
+            _error("sequence_missing")
+        compilation = _unpack(self.compilations[compilation_id])
+        if str(compilation["owner"]).lower() != str(gl.message.sender_address).lower():
+            _error("only_owner")
+        if compilation["state"] == "SEALED":
+            _error("sequence_sealed")
+        index = int(segment_index)
+        if not 0 <= index < int(compilation["segment_count"]):
+            _error("segment_index_out_of_bounds")
+        segment_key = f"{compilation_id}:{index}"
+        segment = _unpack(self.segments[segment_key])
+        if segment["state"] != "ASSIGNED":
+            _error("segment_not_reassignable")
+        replacement = _operator_text(new_operator)
+        replacement_key = f"{compilation_id}:{replacement.lower()}"
+        if self.operator_used.get(replacement_key, False):
+            _error("operator_already_used")
+        previous_key = f"{compilation_id}:{str(segment['operator']).lower()}"
+        self.operator_used[previous_key] = False
+        self.operator_used[replacement_key] = True
+        segment["operator"] = replacement
+        self.segments[segment_key] = _pack(segment)
 
     @gl.public.write
     def acknowledge_segment(self, compilation_id: str, segment_index: u256, acknowledgement: str) -> None:
@@ -226,6 +260,8 @@ ENTRIES={json.dumps(entries)}"""
         compilation = _unpack(self.compilations[compilation_id])
         if str(compilation["owner"]).lower() != str(gl.message.sender_address).lower():
             _error("only_owner")
+        if compilation["state"] == "SEALED":
+            _error("sequence_sealed")
         if int(compilation["acknowledged_count"]) != int(compilation["segment_count"]):
             _error("segments_not_acknowledged")
         compilation["state"] = "SEALED"

@@ -16,15 +16,17 @@ Repository: https://github.com/Leokings/sequencecompressor (public; accessible w
 
 Contract source: contracts/sequence_compressor.py
 
-Source SHA-256: 4c11143db27e23a480c01b9c54e3c2930ac534c8f3acf3e71484d471e3f188aa
+Source SHA-256: f848cd8e95d98825f68f77a7a2fa3d56331b359de7436cea149b4b28f02143a8
 
-StudioNet contract: https://explorer-studio.genlayer.com/address/0x6c8d83FdB74e82E66B5bBf9E48931F906B062457
+StudioNet contract: https://explorer-studio.genlayer.com/address/0x5c72e9c076e00f0ECB1F953dF1883C3b565789DC
 
-Deployment transaction: https://explorer-studio.genlayer.com/tx/0xa565579c2d76ca8250c7d806096ba15191468c1a8632a076551964fb174eb964
+Deployment transaction: https://explorer-studio.genlayer.com/tx/0xb4c09d27b2e5025fa786062018910c7de7c1ca7305d40ce790cf4076a419437c
 
-Intelligent transaction: https://explorer-studio.genlayer.com/tx/0x263e959184964268aaad6ad3510240672ae9e761513e3d65cb31ada10cc2f02b
+Intelligent transaction: https://explorer-studio.genlayer.com/tx/0x338721e4cbeba7cbc8571e2badd66acc65a027afbc89402fd975e34b9dd78afc
 
-Verification (rechecked October 8, 2026): GenVM lint PASS; strict typecheck PASS; 7 direct tests PASS; five-validator GLSim PASS; finalized successful StudioNet deployment and intelligent write PASS; latest-final readback, exact deployed-source, and schema verification PASS. The first-time walkthrough is in README.md.
+Final seal transaction: https://explorer-studio.genlayer.com/tx/0xcbe120da2e9ee5dda0961808d44da460d830d476db9157f9a6aa9c5faa2ca5dc
+
+Verification (rechecked October 8, 2026): GenVM lint PASS; strict typecheck PASS; 11 direct tests PASS; five-validator GLSim PASS; 10 finalized successful StudioNet receipts through `SEALED` PASS; independent latest-final readback, exact deployed-source, and schema verification PASS. The first-time walkthrough is in README.md.
 
 Originality: Compared with 161 workspace contract sources. Nearest pre-existing structural score is 0.192053; mechanism and source hash are distinct.
 

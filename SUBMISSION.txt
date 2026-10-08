@@ -7,7 +7,7 @@ Title
 SequenceCompressor — consensus-labeled work segments
 
 Notes / Description
-SequenceCompressor turns a public ordered list into assignable contiguous work segments. First time: open the linked StudioNet contract in GenLayer Studio, connect a test wallet, and call compile_sequence with a unique key, labels_json (for example ["Preparation","Execution","Verification"]), entries_json (a JSON list of 2–30 short steps), and a policy explaining how to label each step. Validators independently assign one closed label index per entry; the contract checks agreement and deterministically merges adjacent equal labels. Read get_compilation and get_segment to inspect the result. The owner can assign each segment to a distinct wallet, each operator acknowledges, and the owner seals after all acknowledgments. This records a workflow, not proof that work happened; no funds or external evidence. Audit: GenVM lint/typecheck, 7 direct tests, 5-validator GLSim, and finalized StudioNet deployment/AI write with exact source rechecked on Oct 8.
+SequenceCompressor turns a public ordered list into assignable work segments. First time: open the linked StudioNet contract, connect a test wallet, and call compile_sequence with a unique key, labels_json (for example ["Preparation","Execution","Verification"]), entries_json (2–30 short steps), and a policy explaining how to label each step. Validators agree on one closed label index per entry; the contract deterministically merges adjacent equal labels. Read get_compilation and get_segment. The owner assigns each segment to a distinct wallet, can reassign an unacknowledged segment, and seals after all current operators acknowledge. This records a workflow, not proof of completed work; it handles no funds. Oct 8 audit: lint/typecheck, 11 direct tests, five-validator GLSim, and full StudioNet compile-to-seal lifecycle with exact deployed-source match.
 
 Evidence 1 Type
 GitHub Repository
@@ -25,22 +25,22 @@ Evidence 3 Type
 GenLayer Studio Contract
 
 Evidence 3 URL
-https://studio.genlayer.com/?import-contract=0x6c8d83FdB74e82E66B5bBf9E48931F906B062457
+https://studio.genlayer.com/?import-contract=0x5c72e9c076e00f0ECB1F953dF1883C3b565789DC
 
 Evidence 4 Type
 GenLayer Explorer Contract
 
 Evidence 4 URL
-https://explorer-studio.genlayer.com/address/0x6c8d83FdB74e82E66B5bBf9E48931F906B062457
+https://explorer-studio.genlayer.com/address/0x5c72e9c076e00f0ECB1F953dF1883C3b565789DC
 
 Evidence 5 Type
 Other
 
 Evidence 5 URL
-https://explorer-studio.genlayer.com/tx/0x263e959184964268aaad6ad3510240672ae9e761513e3d65cb31ada10cc2f02b
+https://explorer-studio.genlayer.com/tx/0x338721e4cbeba7cbc8571e2badd66acc65a027afbc89402fd975e34b9dd78afc
 
 Evidence 6 Type
 Other
 
 Evidence 6 URL
-https://explorer-studio.genlayer.com/tx/0xa565579c2d76ca8250c7d806096ba15191468c1a8632a076551964fb174eb964
+https://explorer-studio.genlayer.com/tx/0xcbe120da2e9ee5dda0961808d44da460d830d476db9157f9a6aa9c5faa2ca5dc

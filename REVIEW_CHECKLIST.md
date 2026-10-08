@@ -13,10 +13,10 @@
 - [x] Latest-final persisted readback
 - [x] Exact deployed-source SHA-256 verification
 - [x] Deployed schema verification
-- [x] Repository-specific external wallets
+- [x] Disposable in-process test wallets; no stored private keys
 - [x] No private key, mnemonic, or populated environment file
 - [x] Workspace-wide originality and internal pairwise audit
 - [x] Reusable mechanism and off-chain boundary documented
-- [x] Prepared for private publication to Leokings/sequencecompressor
-- [ ] Ensure reviewers have read access to private GitHub evidence
+- [x] Published public MIT repository at Leokings/sequencecompressor
+- [x] Full assignment, reassignment, acknowledgement, and sealing flow verified on StudioNet
 - [ ] Submit the contribution through the portal

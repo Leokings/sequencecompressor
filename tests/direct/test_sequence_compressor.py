@@ -75,3 +75,64 @@ def test_boolean_model_label_is_rejected(contract, direct_vm, direct_alice):
     direct_vm.mock_llm(r".*Assign exactly one indexed label.*", json.dumps({"labels": [0, True, 1, 1, 2]}))
     with direct_vm.expect_revert("[LLM_ERROR] invalid_label_index"):
         contract.compile_sequence("boolean-label", LABELS, ENTRIES, POLICY)
+
+
+def test_zero_address_is_not_a_valid_operator(contract, direct_vm, direct_alice):
+    compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    with direct_vm.expect_revert("invalid_operator"):
+        contract.assign_segment(compilation_id, 0, "0x" + "0" * 40)
+    assert contract.get_compilation(compilation_id)["assigned_count"] == 0
+
+
+def test_owner_can_recover_an_unacknowledged_assignment(contract, direct_vm, direct_alice, direct_bob, direct_charlie, direct_accounts):
+    compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    replacement = direct_accounts[3]
+    contract.assign_segment(compilation_id, 0, direct_bob)
+    contract.assign_segment(compilation_id, 1, direct_charlie)
+    with direct_vm.expect_revert("operator_already_used"):
+        contract.reassign_segment(compilation_id, 0, direct_charlie)
+    with direct_vm.expect_revert("invalid_operator"):
+        contract.reassign_segment(compilation_id, 0, "0x" + "0" * 40)
+    contract.reassign_segment(compilation_id, 0, replacement)
+    assert contract.get_compilation(compilation_id)["assigned_count"] == 2
+    assert str(contract.get_segment(compilation_id, 0)["operator"]).lower() == str(replacement).lower()
+    direct_vm.sender = direct_bob
+    with direct_vm.expect_revert("only_operator"):
+        contract.acknowledge_segment(compilation_id, 0, "This stale operator should not be able to acknowledge.")
+    direct_vm.sender = replacement
+    contract.acknowledge_segment(compilation_id, 0, "The replacement operator has checked the segment.")
+    direct_vm.sender = direct_alice
+    with direct_vm.expect_revert("segment_not_reassignable"):
+        contract.reassign_segment(compilation_id, 0, direct_bob)
+    contract.assign_segment(compilation_id, 2, direct_bob)
+    assert contract.get_compilation(compilation_id)["assigned_count"] == 3
+
+
+def test_reassignment_and_sealing_are_owner_only(contract, direct_vm, direct_alice, direct_bob, direct_charlie):
+    compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    with direct_vm.expect_revert("segment_not_reassignable"):
+        contract.reassign_segment(compilation_id, 0, direct_charlie)
+    contract.assign_segment(compilation_id, 0, direct_bob)
+    direct_vm.sender = direct_bob
+    with direct_vm.expect_revert("only_owner"):
+        contract.reassign_segment(compilation_id, 0, direct_charlie)
+    with direct_vm.expect_revert("only_owner"):
+        contract.seal_sequence(compilation_id)
+    direct_vm.sender = direct_alice
+    with direct_vm.expect_revert("segments_not_acknowledged"):
+        contract.seal_sequence(compilation_id)
+
+
+def test_sealed_sequence_cannot_be_sealed_again(contract, direct_vm, direct_alice, direct_bob, direct_charlie, direct_accounts):
+    compilation_id = _compile(contract, direct_vm, direct_alice, [0, 0, 1, 1, 2])
+    for index, operator in enumerate([direct_bob, direct_charlie, direct_accounts[3]]):
+        direct_vm.sender = direct_alice
+        contract.assign_segment(compilation_id, index, operator)
+        direct_vm.sender = operator
+        contract.acknowledge_segment(compilation_id, index, f"Acknowledgement from operator for segment {index}.")
+    direct_vm.sender = direct_alice
+    contract.seal_sequence(compilation_id)
+    with direct_vm.expect_revert("sequence_sealed"):
+        contract.seal_sequence(compilation_id)
+    with direct_vm.expect_revert("sequence_sealed"):
+        contract.reassign_segment(compilation_id, 0, direct_bob)

@@ -14,7 +14,7 @@ results, and exact deployed-source provenance.
 - write roles are checked against `gl.message.sender_address`;
 - duplicate records and duplicate role actions are rejected;
 - the live proof reads finalized state and exact deployed source;
-- wallet secrets remain in ACL-restricted files outside the workspace.
+- live-test wallets are disposable and generated in process; no private keys are committed.
 
 ## Public-data warning
 
